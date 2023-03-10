@@ -25,13 +25,13 @@ To install the plugin, follow these instructions.
 
 This plugin adds a Twig function to create base64 encoded URL to use with AWS Serverless Image Handler. It also provides a Twig function to easily create SRCSET values based on an array of widths.
 
-At this time, this plugin only support one filesystem for images (use subfolders if you want to split the assets in the Control Panel).
-
 __Please, do not open issues for AWS configuration problems.__
 
 
 
 ## Usage in Twig
+
+Your image must have a valid AWS S3 [Filesystem](https://craftcms.com/docs/4.x/assets.html#filesystems)
 
 ### Function imgUrl()
 
@@ -135,43 +135,6 @@ https://yourdist.cloudfront.net/eyJidWNrZXQiOilLCJ0aW50Ijp7InIiOjAsImciOjAsImIiO
 
 ```
 {{ imgSrcset(photo, [320, 480, 960], { flop : true, grayscale : true }) }}
-```
-
-
-## Configuration file
-The plugin comes with a `config.php` file to defines your settings. You have to create a `aws-image-handler-urls.php` file in your Craft _config_ directory. __Note that these settings are required.__ 
-
-#### cloudfrontDistributionUrl
-`cloudfrontDistributionUrl` is where you define the base URL for your image URLs.
-
-#### bucketName
-`bucketName` is the name of your S3 images bucket. Do not append subfolder.
-
-#### bucketSubfolder
-`bucketSubfolder` is the name of your S3 bucket subfolder if you are using one.
-
-#### defaultTransforms
-`defaultTransforms` is where you define defaultTransforms for images. Let empty if you do not want any default transforms. If you do not provide a third argument (transformParams) with the Twig functions, these transforms will be used. Usefull for global things like quality, format, etc.
-
-__Note:__ You can use values from your ENV file for all the configuration settings. Example: `App::env('S3_BUCKET_SUBFOLDER')`
-
-
-
-## Example cloudfront-signed-urls.php Config File
-```
-<?php
-
-use craft\helpers\App;
-
-return [
-   'bucketName' => App::env('S3_BUCKET_IMAGES'),
-   'cloudfrontDistributionUrl' => App::env('S3_IMAGES_URL'),
-   'bucketSubfolder' => App::env('S3_BUCKET_SUBFOLDER'),
-    'defaultTransforms' => [
-      'flop' => true,
-      'grayscale' => true
-    ],
-];
 ```
 
 

@@ -2,7 +2,6 @@
 
 namespace ianreid\awsimagehandlerurls;
 
-use ianreid\awsimagehandlerurls\models\Settings;
 use ianreid\awsimagehandlerurls\services\AwsImageHandlerUrlsServices as Service;
 use ianreid\awsimagehandlerurls\twigextensions\AwsImageHandlerUrlsTwigExtension;
 
@@ -26,14 +25,5 @@ class AwsImageHandlerUrls extends Plugin
       
       // Twig Extension
       Craft::$app->view->registerTwigExtension(new AwsImageHandlerUrlsTwigExtension());
-   }
-
-   // Protected Methods
-   // --------------------------------------------------------------------------
-
-   // Settings
-   protected function createSettingsModel(): ?\craft\base\Model
-   {
-      return new Settings();
    }
 }
