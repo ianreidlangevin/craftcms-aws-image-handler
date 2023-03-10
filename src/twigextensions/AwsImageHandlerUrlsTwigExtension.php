@@ -20,22 +20,31 @@ class AwsImageHandlerUrlsTwigExtension extends AbstractExtension
       ];
    }
 
-   // imgSrcset() Twig Function
-   // --------------------------------------------------------------------------
-   public function buildSrcSet(Asset $image = null, array $widths = [960], array $transformParams = [])
+   /**
+    * imgSrcset() Twig Function
+    *
+    * @param Asset $image
+    * @param array $widths
+    * @param array $transformParams
+    *
+    * @return string|null
+    */
+   public function buildSrcSet(Asset $image, array $widths = [960], array $transformParams = []) : ?string
    {
-      if($image === null) return;
-      $imgSrcset = AwsImageHandlerUrls::getInstance()->awsImageHandlerUrlsServices->buildSrcSet($image, $widths, $transformParams);
-      return $imgSrcset;
+      return AwsImageHandlerUrls::getInstance()->awsImageHandlerUrlsServices->buildSrcSet($image, $widths, $transformParams);
    }
 
-   // imgUrl() Twig Function
-   // --------------------------------------------------------------------------
-
-   public function buildUrl(Asset $image = null, int $width = 960, array $transformParams = [])
+   /**
+    * imgSrimgUrlcset() Twig Function
+    *
+    * @param Asset $image
+    * @param int $width
+    * @param array $transformParams
+    *
+    * @return string|null
+    */
+   public function buildUrl(Asset $image, int $width = 960, array $transformParams = []) : ?string
    {
-      if($image === null) return;
-      $imgUrl = AwsImageHandlerUrls::getInstance()->awsImageHandlerUrlsServices->buildUrl($image, $width, $transformParams);
-      return $imgUrl;
+      return AwsImageHandlerUrls::getInstance()->awsImageHandlerUrlsServices->buildUrl($image, $width, $transformParams);
    }
 }

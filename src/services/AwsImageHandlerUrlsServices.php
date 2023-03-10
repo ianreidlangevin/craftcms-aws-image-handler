@@ -6,7 +6,10 @@ use Craft;
 use craft\base\Component;
 use craft\elements\Asset;
 use craft\helpers\App;
-use craft\awss3\Fs;
+
+use craft\awss3\Fs as Awsfs;
+
+use yii\base\InvalidConfigException;
 
 class AwsImageHandlerUrlsServices extends Component
 {
@@ -19,31 +22,38 @@ class AwsImageHandlerUrlsServices extends Component
     * Build a URL for an asset with the base64 encoded transforms params
     * Return one URL for the asset.
     * Available directly from Twig (with function) and used by method buildSrcSet
+    *
+    * @param Asset $image
+    * @param int $widthSize
+    * @param array $transformParams
+    *
+    * @return string|null
     */
-   public function buildUrl(Asset $image, int $widthSize = 0, array $transformParams): string
+   public function buildUrl(Asset $image, int $widthSize = 0, array $transformParams): ?string
    {
-
-      $requestParams = [];
-
       // Get bucket from volume and set requestParams bucket and file key
-      try {
-         $fileSystem = $image->getVolume()->getFs();
+      $fileSystem = $image->getVolume()->getFs();
 
-         if ($fileSystem instanceof Fs) {
-            // retrieve values from the FileSystem
-            $distributionUrl = App::parseEnv($fileSystem->url);
-            $bucket = App::parseEnv($fileSystem->bucket);
-            $bucketSubfolder = App::parseEnv($fileSystem->subfolder);
-
-            $requestParams['bucket'] = $bucket;
-            $requestParams['key'] = $bucketSubfolder === '' ? "$image->path" : "$bucketSubfolder/$image->path";
+      // Check if filesystem if instance of AWS
+      if (!$fileSystem instanceof Awsfs) {
+         if (Craft::$app->getConfig()->general->devMode) {
+            throw new InvalidConfigException("The filesystem type for $image->filename is not Amazon S3.");
          }
-      } catch (\Throwable $e) {
-         Craft::error('Could not get AWS S3 filesystem from image: ' . $e->getMessage(), __METHOD__);
+         return null;
       }
 
-      // Edits key - ADD width and custom transforms params
+      // Set arrays to populate
+      $requestParams = [];
       $edits = [];
+
+      // retrieve values from the FileSystem
+      $distributionUrl = App::parseEnv($fileSystem->url);
+      $bucket = App::parseEnv($fileSystem->bucket);
+      $bucketSubfolder = App::parseEnv($fileSystem->subfolder);
+
+      // add values for bucket and key to the requestParams
+      $requestParams['bucket'] = $bucket;
+      $requestParams['key'] = $bucketSubfolder === '' ? "$image->path" : "$bucketSubfolder/$image->path";
 
       // Set width
       $edits['resize']['width'] = $widthSize;
@@ -57,7 +67,6 @@ class AwsImageHandlerUrlsServices extends Component
 
       // add edits to $requestParams
       $requestParams['edits'] = $edits;
-
       // encode as string the params and check for errors
       $encodedRequestParams = json_encode($requestParams, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
       // Append to distribution URL the base64 encoded params for AWS
@@ -68,7 +77,13 @@ class AwsImageHandlerUrlsServices extends Component
 
    /**
     * Build SRCSET choice of images
-    * Return a big string with all the values separated by a comma
+    * Return a string with all the values separated by a comma
+    *
+    * @param Asset $image
+    * @param array $widths
+    * @param array $transformParams
+    *
+    * @return string
     */
    public function buildSrcSet(Asset $image, array $widths, array $transformParams): string
    {
@@ -78,11 +93,12 @@ class AwsImageHandlerUrlsServices extends Component
       if (!empty($widths)) {
          foreach ($widths as $widthSize) {
             $srcSetValue = $this->buildUrl($image, $widthSize, $transformParams);
-            $srcSet[] = $srcSetValue . " " . "$widthSize" . "w";
+            if ($srcSetValue !== null) {
+               $srcSet[] = $srcSetValue . " " . "$widthSize" . "w";
+            }
          }
       }
 
       return implode(",", $srcSet);
    }
-   
 }
