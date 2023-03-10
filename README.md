@@ -5,7 +5,7 @@
 
 ## Requirements
 
-This plugin requires Craft CMS 3.x | 4.x
+This plugin requires Craft CMS 3.x | 4.x and first-party [AWS S3 plugin](https://plugins.craftcms.com/aws-s3)
 
 
 ## Installation
@@ -33,7 +33,7 @@ __Please, do not open issues for AWS configuration problems.__
 
 ## Usage in Twig
 
-#### Function imgUrl()
+### Function imgUrl()
 
 Outputs one image URL
 
@@ -92,7 +92,7 @@ In some Case, it could be helpful to resize an image based on its height, but ke
 
 ---
 
-#### Function imgSrcset() 
+### Function imgSrcset() 
 
 Outputs value for the SRCSET attribute
 
@@ -139,12 +139,10 @@ https://yourdist.cloudfront.net/eyJidWNrZXQiOilLCJ0aW50Ijp7InIiOjAsImciOjAsImIiO
 
 
 ## Configuration file
-The plugin comes with a `config.php` file that defines some sensible defaults.
-
-If you want to set your own values, you should create a `aws-image-handler-urls.php` file in your Craft config directory. Note that these settings are required. 
+The plugin comes with a `config.php` file to defines your settings. You have to create a `aws-image-handler-urls.php` file in your Craft _config_ directory. __Note that these settings are required.__ 
 
 #### cloudfrontDistributionUrl
-`cloudfrontDistributionUrl` is where you define the base URL for your image URLs. If you want to manage the base URL on a per-file basis, do not add this setting to your config file. If you are using a subfolder, you can append it to this URL. _Trailing slash are not required_. 
+`cloudfrontDistributionUrl` is where you define the base URL for your image URLs.
 
 #### bucketName
 `bucketName` is the name of your S3 images bucket. Do not append subfolder.
