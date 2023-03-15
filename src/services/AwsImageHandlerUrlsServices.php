@@ -97,6 +97,7 @@ class AwsImageHandlerUrlsServices extends Component
                $srcSet[] = $srcSetValue . " " . "$widthSize" . "w";
             }
          }
+         unset($widthSize);
       }
 
       return implode(",", $srcSet);
