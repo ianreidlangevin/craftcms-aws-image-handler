@@ -102,7 +102,7 @@ Outputs value for the SRCSET attribute
 | widths | Array     | [960] |
 | transforms    | Array    | [ ] |
 
-##### Basic usage to create a encoded URL for a width.
+##### Usage to create srcset values with these widths : 320, 480, 960, 1440, 1920.
 
 ```
 
@@ -142,6 +142,7 @@ https://yourdist.cloudfront.net/eyJidWNrZXQiOilLCJ0aW50Ijp7InIiOjAsImciOjAsImIiO
 ## Sharp JS Transforms
 
 You can use any Sharp JS Transforms that is supported by AWS Serverless Image Handler.
+
 [View list of transforms](https://sharp.pixelplumbing.com/api-operation). 
 
 Note : you have to pass the transforms as TWIG array.
