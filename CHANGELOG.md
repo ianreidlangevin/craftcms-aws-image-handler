@@ -6,4 +6,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## 1.0 - 2023-03-10
 ### Added
-- Initial beta release
+- Initial release
