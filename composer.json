@@ -2,7 +2,7 @@
    "name": "ianreid/aws-image-handler-urls",
    "description": "Create AWS Serverless Image Handler Urls",
    "type": "craft-plugin",
-   "version": "1.0.1",
+   "version": "1.0.2",
    "keywords": [
       "craft",
       "cms",
