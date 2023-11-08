@@ -149,6 +149,23 @@ Note : you have to pass the transforms as TWIG array.
 
 
 
+## Requesting Concurrency Limit Increase for AWS Image Handler
+
+In most case, the default concurrency limit set by AWS Image Handler might not suffice. If you're encountering issues such as images not displaying, delays in image resizing, or long treatment times on image uploads, it might be time to consider requesting a concurrency limit increase. Follow these steps to request an increase:
+
+1. **Assess Your Application's Needs**: Determine the required concurrency level based on your traffic and image processing demands.
+
+2. **Open a New AWS Support Case**: Navigate to the [AWS Support Center](https://aws.amazon.com/support) and click on 'Create case'.
+
+3. **Select 'Service Limit Increase'**: When creating the case, choose 'Service Limit Increase' for the type of request.
+
+4. **Fill in Service Details**: In the 'Case details' section, look for the service related to AWS Image Handler (such as AWS Lambda or API Gateway) from the service name drop-down menu.
+
+5. **Provide Justification**: In your request, specify the desired concurrency limit (e.g., 1000) and provide a clear justification, including usage patterns or metrics that support your request.
+
+6. **Submit Your Case**: Complete the contact information form, review your case details, and submit the request.
+
+The AWS support team will review your request and typically grant a reasonable increase. It's essential to consider the impact on costs associated with higher concurrency limits and to ensure that your architecture is scalable enough to handle the increased processing load.
 
 
 ---
