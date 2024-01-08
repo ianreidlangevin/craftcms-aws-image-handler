@@ -20,7 +20,11 @@ To install the plugin, follow these instructions.
 
         composer require ianreid/aws-image-handler-urls -w && php craft plugin/install aws-image-handler-urls
 
+## Setting up AWS Serverless Image Handler
 
+Before using this plugin, ensure you have an AWS account and have set up the Serverless Image Handler. This plugin is designed to work with an S3 Filesystem, using the first-party [AWS S3 plugin](https://plugins.craftcms.com/aws-s3).
+
+For instructions on creating a Serverless Image Handler setup on AWS, refer to the official AWS guide: [Serverless Image Handler Implementation Guide](https://aws.amazon.com/solutions/implementations/serverless-image-handler/). The easiest method for most users is to use the provided CloudFormation template.
 ## Overview
 
 This plugin adds a Twig function to create base64 encoded URL to use with AWS Serverless Image Handler. It also provides a Twig function to easily create SRCSET values based on an array of widths.
@@ -149,9 +153,9 @@ Note : you have to pass the transforms as TWIG array.
 
 
 
-## Requesting Concurrency Limit Increase for AWS Image Handler
+## Requesting concurrency limit increase for AWS Image Handler
 
-In most case, the default concurrency limit set by AWS Image Handler might not suffice. If you're encountering issues such as images not displaying, delays in image resizing, or long treatment times on image uploads, it might be time to consider requesting a concurrency limit increase. Follow these steps to request an increase:
+By default, AWS provides a concurrency limit of only 10 simultaneous transforms, which might be insufficient for high-traffic websites or applications. If you encounter issues such as images not displaying, delays in resizing, or general performance bottlenecks, consider requesting a concurrency limit increase.
 
 1. **Assess Your Application's Needs**: Determine the required concurrency level based on your traffic and image processing demands.
 
